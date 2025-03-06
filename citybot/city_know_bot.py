@@ -1,9 +1,6 @@
-import logging
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from config import token as t
-from data import cities
 
-logging.basicConfig(filename='bot.log', level=logging.INFO)
+from data import cities
+from city_parser import load_cities
 
 
 def greet_user(update, context):
@@ -58,16 +55,3 @@ def play_city_game(update, context):
             else:
                 update.message.reply_text('Конец парам пам')
 
-
-def main():
-    mybot = Updater(t(), use_context=True)
-    dp = mybot.dispatcher
-    dp.add_handler(CommandHandler("start", greet_user))
-    dp.add_handler(MessageHandler(Filters.text, play_city_game))
-    logging.info('Бот стартовал')
-    mybot.start_polling()
-    mybot.idle()
-
-
-if __name__ == "__main__":
-    main()
