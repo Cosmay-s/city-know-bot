@@ -1,5 +1,6 @@
+import copy
 
-cities = {
+alphabet_dict = {
   "а": [],
   "б": [],
   "в": [],
@@ -34,15 +35,11 @@ cities = {
 }
 
 
-
-    
 def load_cities(file):
+    dictionary = copy.deepcopy(alphabet_dict)
     with open(file, 'r', encoding='utf-8') as file:
         for line in file:
             city = line.strip()
             if city:
-                 cities[city[0].lower()].append(city)
-
-
-load_cities('cities-russia.txt')
-print(cities)
+              dictionary[city[0].lower()].append(city)
+    return dictionary
