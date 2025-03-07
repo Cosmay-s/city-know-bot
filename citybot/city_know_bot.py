@@ -1,11 +1,14 @@
 from citybot.data import load_cities as ls
 import random 
+import logging
+logger = logging.getLogger(__name__)
 
 cities = ls('cities-russia.txt')
 
 
 def greet_user(update, context):
     update.message.reply_text('Привет, пользователь!\n Сыграем в города?')
+    logger.info(f'Пользователь {user_id}: Начал игру')
 
 
 def get_user_cities(context):
@@ -62,18 +65,24 @@ def user_city_message_received(update, context):
     check = check_city(user_city.capitalize(), context)
     if check == 1:
         update.message.reply_text(f'Город {user_city} уже был!')
+        logger.info(f'Пользователь {user_id}: Город {user_city} уже был')
     elif check == 2:
         update.message.reply_text('Таких городов в нашей необьятной не имеется!')
+        logger.warning(f'Пользователь {user_id}: Город {user_city} не найден в списке')
     elif check == 3:
         check = check_responce(user_city, context)
         if check == 4:
             update.message.reply_text(f'Не та буква. Последний город: {already_been[-1]}')
+            logger.info(f'Пользователь {user_id}: Не та буква. Последний город: {already_been[-1]}')
         elif check == 5:
             city = find_city(find_last_char(user_city.lower()), context)
             already_been.append(user_city)
             if city:
                 update.message.reply_text(f'{city}!\nТебе на {find_last_char(city.lower()).upper()}!')
                 already_been.append(city)
+                logger.info(f'Пользователь {user_id}: Получил в ответ {city}')
             else:
                 update.message.reply_text('Конец')
+                logger.info(f'Пользователь {user_id}: Конец игры')
             set_user_cities(context, already_been)
+            logger.info(f'Пользователь {user_id}: Обновленный список городов:\n {already_been}\n Городов в списке: {len(already_been)}')
