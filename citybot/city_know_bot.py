@@ -1,5 +1,5 @@
 from citybot.data import load_cities as ls
-
+import random 
 
 already_been = []
 cities = ls('cities-russia.txt')
@@ -34,10 +34,11 @@ def check_responce(user_city):
             return 4
     return 5
 
+
 def find_city(last_char):
-    for city in cities[last_char]:
-        if city not in already_been:
-            return city 
+    city = random.choice(cities[last_char])
+    if city not in already_been:
+        return city 
     return None # конец игры
 
             
@@ -60,4 +61,3 @@ def user_city_message_received(update, context):
                 already_been.append(city)
             else:
                 update.message.reply_text('Конец')
-                
