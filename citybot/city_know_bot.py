@@ -7,7 +7,7 @@ cities = ls('cities-russia.txt')
 
 
 def greet_user(update, context):
-    update.message.reply_text('Привет, пользователь!\n Сыграем в города?')
+    update.message.reply_text('Привет, пользователь!\nИграем в города\nНачинай!')
     logger.info(f'Пользователь {user_id}: Начал игру')
 
 
@@ -53,8 +53,8 @@ def find_city(last_char, context):
     already_been = get_user_cities(context)
     city = random.choice(cities[last_char])
     if city not in already_been:
-        return city 
-    return None # конец игры
+        return city
+    return None
 
             
 def user_city_message_received(update, context):
