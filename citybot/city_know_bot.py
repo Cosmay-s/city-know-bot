@@ -36,7 +36,7 @@ def check_city(user_city, context):
     already_been = get_user_cities(context)
     if user_city in already_been:
         return 1 
-    elif user_city not in cities[user_city[0].lower()]:
+    if user_city not in cities[user_city[0].lower()]:
         return 2
     return 3
 
@@ -100,8 +100,7 @@ def user_city_message_received(update, context):
     user_city = update.message.text
     user_id = update.message.from_user.id
     already_been = get_user_cities(context)
-
-    check = check_city(user_city.capitalize(), context)
+    check = check_city(user_city, context)
     if check == 1:
         update.message.reply_text(f'Город {user_city} уже был!')
         logger.info(f'Пользователь {user_id}: Город {user_city} уже был')
@@ -112,4 +111,3 @@ def user_city_message_received(update, context):
         return
     if check == 3:
         check_user_responce(update, context, user_city, user_id, already_been)
-        
